@@ -1,0 +1,27 @@
+# Exchange publish (portfolio). Routed by trigger — see template stage publish-exchange.yml.
+# Run title after first step: {pomVersion}-{branch}.{yyyyMMdd}.{rev} (set-common-variables.sh).
+name: $(Date:yyyyMMdd).$(Rev:r)
+
+trigger:
+  branches:
+    include:
+      - develop
+      - main
+
+pr:
+  branches:
+    include:
+      - develop
+      - main
+
+resources:
+  repositories:
+    - repository: pipeline-templates
+      type: github
+      endpoint: sc-github
+      name: brunosouzas/azure-devops-mulesoft-deployment-pipeline
+
+stages:
+  - template: templates/stages/publish-exchange.yml@pipeline-templates
+    parameters:
+      skipTests: true

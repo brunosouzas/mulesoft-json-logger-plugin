@@ -1,41 +1,91 @@
-# Json-logger Extension
+# mulesoft-json-logger-plugin
 
-## 2.2.0 version - Release notes
+> Structured JSON logging for Mule 4 — request, response, and exception events with configurable content.
 
-* Updated to support Java 17
-* Upgraded dependencies to fix known vulnerabilities
+Mule plugin for consistent JSON log output across API and integration flows. Foundation for operational traceability; pairs with `audit-logging-lib` for audit-grade event envelopes.
 
-## 2.1.0 version - Release notes
+## Table of Contents
 
-* Minimum supported mule runtime 4.3
-* Upgraded dependencies to fix known vulnerabilities
+- [About](#about)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [CI/CD](#cicd)
+- [Documentation](#documentation)
+- [Related Projects](#related-projects)
+- [License](#license)
 
-## 2.0.1 version - Release notes
+## About
 
-Bug fixes:
-* Added support for large payloads
+Platform-standard logging plugin published to Anypoint Exchange. Bundled via `maven-parent-pom` for all Mule applications.
 
-## 2.0.0 version - Release notes
+## Features
 
-New features:
-* External Destinations
-* Data masking
+- JSON-structured log entries (request / response / exception)
+- Configurable `content` payload via DataWeave
+- Compatible with Anypoint Monitoring search keys
+- Exchange `mule-plugin` artifact
 
-Improvements:
-* Field ordering
+## Prerequisites
 
-More details in the coming blog post (stay tuned!)
+| Requirement | Version / notes |
+|-------------|-----------------|
+| Mule Runtime | 4.9.x |
+| Maven | 3.9+ |
+| Exchange org | `8d624bf1-5cd5-455e-94ea-6f2ba716a0ed` |
 
-## 1.1.0 version - Release notes
+## Getting Started
 
-New features:
-* Scoped loggers to capture "scope bound elapsed time". Great for performance tracking of specific components (e.g. outbound calls)
-* Added "Parse content fields in json output" flag so that content fields can become part of final JSON output rather than a "stringified version" of the content
+```bash
+mvn clean test package
+```
 
-Improvements:
-* Removed Guava and caching in general with a more efficient handling of timers (for elapsed time)
-* Optimized generation of JSON output
-* Code optimizations
-* Minimized dependency footprint (down from ~23MB to ~13MB)
-* Optimized parsing of TypedValue content fields
+| Field | Value |
+|-------|-------|
+| `artifactId` | `json-logger` |
+| `version` | `1.1.0-SNAPSHOT` |
+| `classifier` | `mule-plugin` |
 
+## Usage
+
+```xml
+<dependency>
+  <groupId>8d624bf1-5cd5-455e-94ea-6f2ba716a0ed</groupId>
+  <artifactId>json-logger</artifactId>
+  <version>1.1.0-SNAPSHOT</version>
+  <classifier>mule-plugin</classifier>
+</dependency>
+```
+
+Use `json-logger:logger` in flows. Set `content` with DataWeave; use INFO for operational trace, DEBUG for payloads.
+
+## CI/CD
+
+| Trigger | Branch | Action |
+|---------|--------|--------|
+| PR → `develop` | SNAPSHOT to Exchange |
+| Merge `main` | Release + tag `v*` |
+
+**Pipeline:** `publish-exchange.yml`
+
+## Documentation
+
+Detailed runbooks, architecture, and troubleshooting are maintained in the **Obsidian vault** (not in this repository).
+
+| Topic | Obsidian path |
+|-------|---------------|
+| Repository card | `GitHub/repos/mulesoft-json-logger-plugin.md` |
+| Documentation standard | `GitHub/readme-standard.md` |
+
+## Related Projects
+
+| Project | Relationship |
+|---------|--------------|
+| [audit-logging-lib](https://github.com/brunosouzas/audit-logging-lib) | Audit event builders for logger `content` |
+| [mulesoft-error-handler-plugin](https://github.com/brunosouzas/mulesoft-error-handler-plugin) | Error responses + logging |
+| [maven-parent-pom](https://github.com/brunosouzas/maven-parent-pom) | Default dependency |
+
+## License
+
+See [LICENSE](LICENSE).

@@ -47,8 +47,17 @@ Exchange takes the asset only under the org's ID, which git does not hold. Publi
 
 ```
 cp -R . /tmp/mulesoft-json-logger-plugin && cd /tmp/mulesoft-json-logger-plugin
-sed -i.bak 's#<groupId>com.brunosouzas.mulesoft</groupId>#<groupId><YOUR_ORG_ID></groupId>#' pom.xml
+sed -i.bak 's#<groupId>com.brunosouzas.mulesoft</groupId>#<groupId><YOUR_ORG_ID></groupId>#g' pom.xml
 mvn clean org.mule.tools.maven:exchange-mule-maven-plugin:0.0.23:exchange-pre-deploy deploy org.mule.tools.maven:exchange-mule-maven-plugin:0.0.23:exchange-deploy
 ```
 
-A consumer references the asset by the org's ID: `<groupId><YOUR_ORG_ID></groupId>`.
+## Using the module in a Mule 4 project
+A consumer references the asset by the org's ID. Add this dependency to the application's pom.xml:
+```
+<dependency>
+	<groupId><YOUR_ORG_ID></groupId>
+	<artifactId>json-logger</artifactId>
+	<version>${version}</version>
+	<classifier>mule-plugin</classifier>
+</dependency>
+```

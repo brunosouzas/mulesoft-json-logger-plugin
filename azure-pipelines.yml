@@ -1,27 +1,25 @@
-# Exchange publish (portfolio). Routed by trigger — see template stage publish-exchange.yml.
-# Run title after first step: {pomVersion}-{branch}.{yyyyMMdd}.{rev} (set-common-variables.sh).
-name: $(Date:yyyyMMdd).$(Rev:r)
-
+# The pipeline of this library (azure-devops-mulesoft-reusable-templates, templates/stages/mulesoft-library.yml).
+# - A pull request into main: build and tests.
+# - A merge into main: the Maven release, the tag vX.Y.Z and X.Y.Z on the org's Exchange.
+# - Run pipeline on a tag (type vX.Y.Z in the branch/tag field): that version to the Exchange of a new trial org.
 trigger:
+  batch: false
   branches:
     include:
-      - develop
       - main
 
 pr:
   branches:
     include:
-      - develop
       - main
 
 resources:
   repositories:
-    - repository: pipeline-templates
+    - repository: app_templates
       type: github
-      endpoint: sc-github
-      name: brunosouzas/azure-devops-mulesoft-deployment-pipeline
+      name: brunosouzas/azure-devops-mulesoft-reusable-templates
+      endpoint: github.com_brunosouzas
+      ref: refs/tags/v2.3.0
 
-stages:
-  - template: templates/stages/publish-exchange.yml@pipeline-templates
-    parameters:
-      skipTests: true
+extends:
+  template: templates/stages/mulesoft-library.yml@app_templates
